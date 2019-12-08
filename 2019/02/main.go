@@ -13,6 +13,7 @@ func readInts(filename, sep string) []int {
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	trimmed := strings.Trim(string(b), "\n ")
 	splits := strings.Split(trimmed, sep)
 
