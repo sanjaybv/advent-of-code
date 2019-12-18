@@ -1,6 +1,6 @@
 from fileinput import input as f_input
 from itertools import permutations
-from math import atan2
+from math import atan2, degrees, pi
 
 asteroids = [(x, y) for y, line in enumerate(f_input()) 
                 for x, c in enumerate(line) if c == '#']
@@ -45,17 +45,23 @@ counts, vicinity = scan_asteroids()
 max_asteroid = max(counts, key=counts.get)
 print(max_asteroid, counts[max_asteroid])
 
-# Debugger
-
 def angle(a, b):
-    return atan2(b[1] - a[1], b[0] - a[0])
+    return (degrees(atan2(b[1] - a[1], b[0] - a[0])) + 90) % 360
 
-def debug():
+def boom(vicinity, max_asteroid):
+    i = 0
     seen = {}
-    for ast in vicinity[max_asteroid]:
-        a = angle(ast, max_asteroid)
+    destroy = []
+    for ast in vicinity:
+        a = angle(max_asteroid, ast)
         if a in seen:
             print("???", ast, seen[a])
         else:
             seen[a] = ast
-debug()
+            destroy.append((a, ast))
+            i += 1
+
+    destroy.sort(key=lambda x: x[0])
+    print(destroy[0], destroy[199])
+
+boom(vicinity[max_asteroid], max_asteroid)
