@@ -1,5 +1,7 @@
 from fileinput import input as f_input
 from itertools import repeat
+from copy import copy
+import numpy as np
 
 class IntCode(object):
     def __init__(self, memory):
@@ -100,12 +102,12 @@ class IntCode(object):
                 yield out
 
 class PaintingRobot(object):
-    def __init__(self, memory):
+    def __init__(self, memory, start_color=0):
         self.memory = memory
 
         self.dir = 0
         self.x, self.y = 0, 0
-        self.panels = {}
+        self.panels = {(0, 0): start_color}
 
         self.dir_delta = [(0, 1), (1, 0), (0, -1), (-1, 0)]
 
@@ -132,13 +134,34 @@ class PaintingRobot(object):
                 self.move()
 
             except StopIteration:
-                return len(self.panels)
+                return
+
+    def paint(self):
+        minx, maxx = min(x[0] for x in self.panels), max(x[0] for x in self.panels)
+        miny, maxy = min(x[1] for x in self.panels), max(x[1] for x in self.panels)
+        width, height = maxx - minx, maxy - miny
+
+        print()
+        for y in range(height, -1, -1):
+            for x in range(width):
+                print("▓" if self.panels.get((x+minx, y+miny), 0) else " ", end="")
+            print()
+
+    def painted_panels(self):
+        return len(self.panels)
 
 def main():
     array = list(map(int, f_input()[0].split(",")))
 
-    program = PaintingRobot(array)
-    print(program.run())
+    # Part 1
+    program = PaintingRobot(copy(array))
+    program.run()
+    print(program.painted_panels())
+
+    # Part 2
+    program = PaintingRobot(copy(array), 1)
+    program.run()
+    program.paint()
 
 if __name__ == "__main__":
     main()
