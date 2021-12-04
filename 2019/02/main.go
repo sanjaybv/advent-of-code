@@ -69,3 +69,12 @@ func runProgram(nums []int, a, b int) int {
 		i += 4
 	}
 }
+
+type Foo struct {
+	A int
+	B string
+}
+
+var (
+	s = Foo{A: 3, B: "hello"}
+)
