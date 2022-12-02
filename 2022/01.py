@@ -1,10 +1,11 @@
+from aocd import get_data
 import fileinput
 
 cals = []
 local_sum = 0
-for line in fileinput.input():
-    if line != "\n":
-        local_sum += int(line)
+for line in get_data(year=2022, day=1).split('\n'):
+    if line != "":
+       local_sum += int(line)
     else:
         cals.append(local_sum)
         local_sum = 0
@@ -17,3 +18,4 @@ print(cals[-1])
 
 # part 2
 print(sum(cals[-3:]))
+
