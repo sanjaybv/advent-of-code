@@ -1,5 +1,4 @@
 from aocd import get_data
-import fileinput
 
 cals = []
 local_sum = 0
