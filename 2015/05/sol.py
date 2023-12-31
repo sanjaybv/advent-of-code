@@ -12,10 +12,18 @@ def check(s):
 
 
 def check_again(s):
-    m = {}
-    if sum([1 for i in range(len(s)-1) if s[i:i+2] in s[:i] or s[i:i+2] in s[i+2:]]) < 1:
+    if (
+        sum(
+            [
+                1
+                for i in range(len(s) - 1)
+                if s[i : i + 2] in s[:i] or s[i : i + 2] in s[i + 2 :]
+            ]
+        )
+        < 1
+    ):
         return 0
-    if sum([1 for i in range(len(s)-2) if s[i] == s[i+2]]) < 1:
+    if sum([1 for i in range(len(s) - 2) if s[i] == s[i + 2]]) < 1:
         return 0
 
     return 1
